@@ -1,12 +1,14 @@
 {
   "compilerOptions": {
+    "lib": ["esnext"],
     "module": "commonjs",
     "esModuleInterop": true,
     "target": "es6",
     "noImplicitAny": true,
     "moduleResolution": "node",
-    "baseUrl": "./",
-    "outDir": "dist"
+    "baseUrl": ".",
+    "outDir": "dist",
+    "sourceMap": true
   },
   "exclude": ["node_modules"]
 }
