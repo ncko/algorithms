@@ -117,3 +117,4 @@ dist
 
 # project specific
 sandbox.ts
+.DS_Store
