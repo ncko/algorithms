@@ -44,7 +44,7 @@ describe('Trie', () => {
         expect(node.isCompleteWord()).toBe(true)
     })
 
-    it('returns a list of all added words', () => {
+    it('provides a list of all added words', () => {
         const someWords = ['boom', 'bust', 'boa']
         const moreWords = ['brim', 'blonde', 'bakery']
         const node = new Trie(someWords)
@@ -62,7 +62,7 @@ describe('Trie', () => {
         expect(trie.isWord('triw')).toBe(false)
     })
 
-    it('returns an object literal representation', () => {
+    it('provides an object literal representation', () => {
         const input = ['a', 'b', 'cd']
         const expectedOutput = {
             isCompleteWord: false,
@@ -90,5 +90,24 @@ describe('Trie', () => {
         const trie = new Trie(input)
         const output = trie.toObject()
         expect(output).toEqual(expectedOutput)
+    })
+
+    it('finds the longest word', () => {
+        const empty = new Trie('')
+        expect(empty.longestWord()).toBe('')
+
+        const trie2 = new Trie(words)
+        expect(trie2.longestWord()).toBe('cards')
+    })
+
+    // https://leetcode.com/problems/longest-word-in-dictionary/
+    it('finds the longest word that can be built, one character at a time, by other words', () => {
+        const example1 = new Trie(['w', 'wo', 'wor', 'worl', 'world'])
+        const word1 = example1.longestComposableWord()
+        expect(word1).toBe('world')
+
+        const example2 = new Trie(['a', 'banana', 'app', 'appl', 'ap', 'apply', 'apple'])
+        const word2 = example2.longestComposableWord()
+        expect(word2).toBe('apple')
     })
 })

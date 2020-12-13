@@ -1,5 +1,11 @@
 # Tries
 
+The 2 things that basically define a trie are:
+1. A map of children tries
+2. Some flag for determining if a node is a complete word (.e.g.: isCompleteWord)
+
+Everything else is sugar
+
 ## Useful when
 When you have a problem that requires some kind of word validation
 

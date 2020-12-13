@@ -33,6 +33,26 @@ export default class Trie {
         })
     }
 
+    public getChildren(): ChildMap {
+        return this._children
+    }
+
+    public isCompleteWord(): boolean {
+        return this._isCompleteWord
+    }
+
+    public toObject(): Literal {
+        const children: Record<string, Literal> = {}
+        for (const [key, trie] of this._children.entries()) {
+            children[key] = trie.toObject()
+        }
+
+        return {
+            isCompleteWord: this._isCompleteWord,
+            children
+        }
+    }
+
     public getAllCompleteWords(): string[] {
         const words = []
 
@@ -61,26 +81,6 @@ export default class Trie {
         return this
     }
 
-    public getChildren(): ChildMap {
-        return this._children
-    }
-
-    public isCompleteWord(): boolean {
-        return this._isCompleteWord
-    }
-
-    public toObject(): Literal {
-        const children: Record<string, Literal> = {}
-        for (const [key, trie] of this._children.entries()) {
-            children[key] = trie.toObject()
-        }
-
-        return {
-            isCompleteWord: this._isCompleteWord,
-            children
-        }
-    }
-
     public isWord(word: string): boolean {
         if (word.length === 0) {
             return this._isCompleteWord
@@ -95,6 +95,40 @@ export default class Trie {
         }  else {
             return existingNode.isWord(restOfWord)
         }
+    }
+
+    public longestWord(): string {
+        if (!this._children.size) {
+            return ''
+        }
+
+        const words = []
+        for (const [key, trie] of this._children.entries()) {
+            const largestWord = key + trie.longestWord()
+            words.push(largestWord)
+        }
+        return words.sort().reverse().reduce((a, b) => a.length > b.length ? a : b)
+    }
+
+    public longestComposableWord(): string {
+        if (!this._children.size) {
+            return ''
+        }
+
+        const words = []
+
+        for (const [key, trie] of this._children.entries()) {
+            if (trie.isCompleteWord()) {
+                const longestComposable = key + trie.longestComposableWord()
+                words.push(longestComposable)
+            }
+        }
+
+        if (!words.length) {
+            return ''
+        }
+
+        return words.sort().reverse().reduce((a, b) => a.length > b.length ? a : b)
     }
 
     private parseWord(word: string): void {
