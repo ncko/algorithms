@@ -5,9 +5,14 @@ interface Options {
     isCompleteWord?: boolean
 }
 
+interface Literal {
+    isCompleteWord: boolean,
+    children: Record<string, Literal>
+}
+
 export class Trie {
+    private readonly _children: ChildMap
     private _isCompleteWord: boolean
-    private _children: ChildMap
 
     constructor(word?: string | string[], options?: Options) {
         this._children = options?.initialChildren || new Map()
@@ -19,13 +24,11 @@ export class Trie {
         }
     }
 
-    static clone(trie: Trie, word?: string) {
-        const newNode = new Trie(word, {
+    static clone(trie: Trie, word?: string): Trie {
+        return new Trie(word, {
             initialChildren: trie.getChildren(),
             isCompleteWord: trie.isCompleteWord()
         })
-
-        return newNode
     }
 
     public getAllCompleteWords(): string[] {
@@ -64,8 +67,8 @@ export class Trie {
         return this._isCompleteWord
     }
 
-    public toObject(): any {
-        const children: Record<string, any> = {}
+    public toObject(): Literal {
+        const children: Record<string, Literal> = {}
         for (const [key, trie] of this._children.entries()) {
             children[key] = trie.toObject()
         }
