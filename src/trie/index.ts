@@ -10,13 +10,15 @@ interface Literal {
     children: Record<string, Literal>
 }
 
-export class Trie {
+export default class Trie {
     private readonly _children: ChildMap
     private _isCompleteWord: boolean
 
     constructor(word?: string | string[], options?: Options) {
+        const isEmptyString = ((typeof word !== 'undefined') && !word.length)
+
         this._children = options?.initialChildren || new Map()
-        this._isCompleteWord = options?.isCompleteWord || ((typeof word !== 'undefined') && !word.length)
+        this._isCompleteWord = options?.isCompleteWord || isEmptyString
 
         if (word) {
             const words = Array.isArray(word) ? word : [word]

@@ -1,8 +1,8 @@
-import { Trie } from "./index";
+import Trie from "."
 
 const words =  ['car', 'card', 'cards', 'cot', 'cots', 'try', 'trie', 'trim', 'tried']
 
-describe('TrieNode', () => {
+describe('Trie', () => {
     it('can be initialized with an array of words', () => {
         const node = new Trie(words)
         const children = node.getChildren()
