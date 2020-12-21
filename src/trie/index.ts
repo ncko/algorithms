@@ -1,3 +1,5 @@
+import { longestString, reverseAlphabetical } from "../util"
+
 export type ChildMap = Map<string, Trie | null>
 
 interface Options {
@@ -9,6 +11,7 @@ interface Literal {
     isCompleteWord: boolean,
     children: Record<string, Literal>
 }
+
 
 export default class Trie {
     private readonly _children: ChildMap
@@ -107,7 +110,8 @@ export default class Trie {
             const largestWord = key + trie.longestWord()
             words.push(largestWord)
         }
-        return words.sort().reverse().reduce((a, b) => a.length > b.length ? a : b)
+
+        return longestString(reverseAlphabetical(words))
     }
 
     public longestComposableWord(): string {
@@ -128,7 +132,7 @@ export default class Trie {
             return ''
         }
 
-        return words.sort().reverse().reduce((a, b) => a.length > b.length ? a : b)
+        return longestString(reverseAlphabetical(words))
     }
 
     private parseWord(word: string): void {
